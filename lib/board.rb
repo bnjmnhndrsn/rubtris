@@ -1,10 +1,20 @@
 require_relative 'block'
 require 'debugger'
+require 'colorize'
+
 class Board
   
   STRINGS = {
-    Block => "x",
-    NilClass => " " 
+    Block => "  ".colorize(:white),
+    NilClass => "  " 
+  }
+  
+  COLORS = {
+    :line => :on_cyan,
+    :left_l => :on_blue,
+    :right_l => :on_green,
+    :t_block => :on_magenta,
+    :square => :on_red,
   }
   
   WIDTH = 10
@@ -28,7 +38,8 @@ class Board
   def serialize
     @grid.map do |row|
        row.map do |square|
-         STRINGS[square.class]
+        str = STRINGS[square.class]
+        square.nil? ? str : str.send(COLORS[square.pattern])
        end
      end
   end
@@ -54,6 +65,7 @@ class Board
   
   def add_block
     block = Block.random(STARTING_POINT)
+    
     spaces = block.spaces_occupied
     return false if filled?(spaces)
     add_to_spaces(block, spaces)
@@ -62,15 +74,30 @@ class Board
   end
   
   def shift_direction(block, i, j)
+    new_upper_left = [block.upper_left.first + i, block.upper_left.last + j]
     old_spaces = block.spaces_occupied
-    new_spaces = old_spaces.map { |space| [space.first + i, space.last + j] }
+    new_spaces = block.spaces_occupied(pos: new_upper_left)
     old_territory = old_spaces - new_spaces
     new_territory = new_spaces - old_spaces
     return false unless new_spaces.all? { |coord| on_board?(coord) }
     return false if filled?(new_territory)
     remove_from_spaces(old_territory)
     add_to_spaces(block, new_territory)
-    block.upper_left = [block.upper_left.first + i, block.upper_left.last + j]
+    block.upper_left = new_upper_left
+    true 
+  end
+  
+  def rotate_direction(block, turn)
+    new_rotation = block.rotation + turn
+    old_spaces = block.spaces_occupied
+    new_spaces = block.spaces_occupied(rotation: new_rotation)
+    old_territory = old_spaces - new_spaces
+    new_territory = new_spaces - old_spaces
+    return false unless new_spaces.all? { |coord| on_board?(coord) }
+    return false if filled?(new_territory)
+    remove_from_spaces(old_territory)
+    add_to_spaces(block, new_territory)
+    block.rotation = new_rotation
     true 
   end
   
@@ -95,9 +122,15 @@ class Board
   end
   
   def rotate_selected_left
+    rotate_direction(@selected, -1)
   end
   
   def rotate_selected_right
+    rotate_direction(@selected, 1)
+  end
+  
+  def remove_and_shift(row)
+  
   end
 
 end

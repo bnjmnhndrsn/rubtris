@@ -16,7 +16,7 @@ class Tetris
   def run
     @board.add_block
     @ui.load(@board.serialize)
-    @ui.display(labels: false)
+    @ui.display(spaces: 0, labels: false)
     @last_advanced = Time.now
     while true
       if Time.now - @last_advanced > ADVANCE_RATE
@@ -25,7 +25,7 @@ class Tetris
       end
       system('clear')
       action = nil
-      @ui.display(labels: false)
+      @ui.display(spaces: 0, labels: false)
       begin
         action = Timeout::timeout(REFRESH_RATE) { STDIN.getch }
       rescue
