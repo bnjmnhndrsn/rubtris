@@ -8,7 +8,7 @@ class Block
   
   PATTERN_SIZES = {
     square: 2,
-    lines: 4,
+    line: 4,
     left_l: 3,
     right_l: 3,
     t_block: 3
