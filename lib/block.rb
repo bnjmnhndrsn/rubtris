@@ -1,24 +1,23 @@
 require 'timeout'
 require 'io/console'
+
 class Block
-end
-
-def update_output(val)
-  puts val
-end
-
-
-
-while true
-  begin
-  a = Timeout::timeout(0.01) {
-    STDIN.getch
+  
+  attr_accessor :upper_left, :selected
+  
+  PATTERNS = {
+    square: [[0, 0], [0, 1], [1, 0], [1, 1]],
+    line: [[0, 0], [1, 0], [2, 0], [3, 0]],
   }
-  rescue
-    break if a == "c"
-    
+  
+  def initialize(pattern, upper_left)
+    @pattern, @upper_left = pattern, upper_left
   end
-  system('clear')
-  update_output(a)
+  
+  def spaces_occupied(pos = @upper_left)
+      PATTERNS[@pattern].map do |vector|
+        [vector.first + pos.first, vector.last + pos.last]
+      end
+  end
+  
 end
-
