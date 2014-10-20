@@ -1,5 +1,4 @@
 require_relative 'block'
-require 'debugger'
 require 'colorize'
 
 class Board
