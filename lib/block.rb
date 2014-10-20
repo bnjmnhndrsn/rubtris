@@ -1,6 +1,5 @@
 require 'timeout'
 require 'io/console'
-require "debugger"
 
 class Block
   
