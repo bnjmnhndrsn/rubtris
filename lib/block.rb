@@ -10,17 +10,19 @@ class Block
     line: 4,
     left_l: 3,
     right_l: 3,
-    t_block: 3
+    t_block: 3,
+    n_block_1: 3
   }
   
-  PATTERN_NAMES = [:square, :line, :left_l, :right_l, :t_block]
+  PATTERN_NAMES = [:square, :line, :left_l, :right_l, :t_block, :n_block_1]
   
   PATTERNS = {
-    square: [[0, 0], [0, 1], [1, 0], [1, 1]],
-    line: [[0, 1], [1, 1], [2, 1], [3, 1]],
-    left_l: [[0, 0], [1, 0], [2, 0], [2, 1]],
-    right_l: [[0, 2], [1, 2], [2, 2], [2, 1]],
-    t_block: [[1, 1], [2, 0], [2, 1], [2, 2]]
+    square:     [[0, 0], [0, 1], [1, 0], [1, 1]],
+    line:       [[0, 1], [1, 1], [2, 1], [3, 1]],
+    left_l:     [[0, 0], [1, 0], [2, 0], [2, 1]],
+    right_l:    [[0, 2], [1, 2], [2, 2], [2, 1]],
+    t_block:    [[1, 1], [2, 0], [2, 1], [2, 2]],
+    n_block_1:  [[0, 0], [1, 0], [1, 1], [2, 1]]
   }
   
   def initialize(pattern, upper_left)

@@ -16,6 +16,7 @@ class Board
     :right_l => :on_green,
     :t_block => :on_magenta,
     :square => :on_red,
+    :n_block_1 => :on_yellow
   }
   
   WIDTH = 10
