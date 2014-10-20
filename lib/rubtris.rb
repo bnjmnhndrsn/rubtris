@@ -20,7 +20,7 @@ class Rubtris
       do_turn
     end
     
-    end_game_message
+    end_game
   end
   
   def set_up_game
@@ -39,9 +39,10 @@ class Rubtris
     update_level
   end
   
-  def end_game_message
+  def end_game
     render(@board.to_s)
     puts "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}"
+    STDIN.echo = true
   end
   
   def current_advance_rate
@@ -66,7 +67,7 @@ class Rubtris
     action
   end
   
-  def exit_program
+  def force_quit
     STDIN.echo = true
     fail "quitting gracefully"
   end
@@ -88,9 +89,9 @@ class Rubtris
     when "l"
       @board.rotate_selected_left
     when "\e"
-      exit_program
+      force_quit
     when "\u0003"
-      exit_program
+      force_quit
     end
     nil
   end
