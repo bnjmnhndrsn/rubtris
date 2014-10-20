@@ -1,4 +1,3 @@
-require_relative '../../shared/lib/board_ui'
 require_relative 'board'
 require 'timeout'
 require 'io/console'
@@ -12,13 +11,11 @@ class Rubtris
 
   def initialize
     @board = Board.new
-    @ui = BoardUI.new
   end
 
   def run
     @board.add_block
-    @ui.load(@board.serialize)
-    @ui.display(spaces: 0, labels: false)
+    render(@board.to_s)
     @last_advanced, @level = Time.now, 0
     
     until @board.over?
@@ -29,16 +26,16 @@ class Rubtris
       end
       system('clear')
       action = nil
-      @ui.display(spaces: 0, labels: false)
+      render(@board.to_s)
       begin
         action = Timeout::timeout(REFRESH_RATE) { STDIN.getch }
       rescue
       end
-      @ui.load(@board.serialize)
       take_action(action) if action
       @level = @board.completed_lines / 10
     end
-    @ui.display(spaces: 0, labels: false, message: "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}")
+    render(@board.to_s)
+    puts "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}"
   end
 
   def take_action(action)
@@ -64,9 +61,13 @@ class Rubtris
     end
     nil
   end
+  
+  def render(grid_string)
+    puts grid_string
+  end
 
   
 end
 
-t = Tetris.new
+t = Rubtris.new
 t.run

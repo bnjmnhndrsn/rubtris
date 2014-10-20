@@ -37,13 +37,13 @@ class Board
     @grid[coord.first][coord.last] = val
   end
   
-  def serialize
+  def to_s
     @grid.map do |row|
        row.map do |square|
         str = STRINGS[square.class]
         square.nil? ? str.on_light_white : str.send(COLORS[square.pattern])
-       end
-     end[2..-1]
+       end.join("")
+     end[2..-1].join("\n")
   end
   
   def filled?(space)
