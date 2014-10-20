@@ -84,13 +84,11 @@ class Rubtris
       @board.move_selected_right
     when "\r"
       @board.push_selected_down
-    when "p"
+    when "e"
       @board.rotate_selected_right
-    when "l"
+    when "q"
       @board.rotate_selected_left
-    when "\e"
-      force_quit
-    when "\u0003"
+    when "p"
       force_quit
     end
     nil
