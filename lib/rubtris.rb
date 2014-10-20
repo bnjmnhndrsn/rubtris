@@ -3,7 +3,7 @@ require_relative 'board'
 require 'timeout'
 require 'io/console'
 
-class Tetris
+class Rubtris
   
   REFRESH_RATE  = 0.03
   BEGINNING_ADVANCE_RATE  = 0.3
