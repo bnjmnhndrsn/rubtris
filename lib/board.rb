@@ -74,6 +74,7 @@ class Board
     spaces = block.spaces_occupied
     return false if any_filled?(spaces)
     add_to_spaces(block, spaces)
+    @selected.upper_left = nil unless @selected.nil?
     @selected = block
     true
   end
@@ -152,7 +153,4 @@ class Board
   end
 
 
-end
-
-class InvalidMoveError < RuntimeError
 end

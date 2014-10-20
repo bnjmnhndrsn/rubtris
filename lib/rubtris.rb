@@ -14,28 +14,61 @@ class Rubtris
   end
 
   def run
+    set_up_game
+    
+    until @board.over?
+      do_turn
+    end
+    
+    end_game_message
+  end
+  
+  def set_up_game
+    STDIN.echo = false
     @board.add_block
     render(@board.to_s)
     @last_advanced, @level = Time.now, 0
-    
-    until @board.over?
-      current_advance_rate = [BEGINNING_ADVANCE_RATE - (@level * DIF_BTWN_LEVEL), MINIMUM_ADVANCE_RATE].max
-      if Time.now - @last_advanced > current_advance_rate
-        @last_advanced = Time.now
-        @board.move_selected_down
-      end
-      system('clear')
-      action = nil
-      render(@board.to_s)
-      begin
-        action = Timeout::timeout(REFRESH_RATE) { STDIN.getch }
-      rescue
-      end
-      take_action(action) if action
-      @level = @board.completed_lines / 10
-    end
+  end
+  
+  def do_turn
+    auto_advance if auto_advance_needed?
+    system('clear')
+    render(@board.to_s)
+    action = get_input
+    take_action(action) if action
+    update_level
+  end
+  
+  def end_game_message
     render(@board.to_s)
     puts "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}"
+  end
+  
+  def current_advance_rate
+    [BEGINNING_ADVANCE_RATE - (@level * DIF_BTWN_LEVEL), MINIMUM_ADVANCE_RATE].max
+  end
+  
+  def auto_advance_needed?
+    Time.now - @last_advanced > current_advance_rate
+  end
+  
+  def auto_advance
+    @last_advanced = Time.now
+    @board.move_selected_down
+  end
+  
+  def get_input
+    action = nil
+    begin
+      action = Timeout::timeout(REFRESH_RATE) { STDIN.getch }
+    rescue
+    end
+    action
+  end
+  
+  def exit_program
+    STDIN.echo = true
+    fail "quitting gracefully"
   end
 
   def take_action(action)
@@ -55,11 +88,15 @@ class Rubtris
     when "l"
       @board.rotate_selected_left
     when "\e"
-      fail "quitting gracefully"
+      exit_program
     when "\u0003"
-      fail "quitting gracefully"
+      exit_program
     end
     nil
+  end
+  
+  def update_level
+    @level = @board.completed_lines / 10
   end
   
   def render(grid_string)
