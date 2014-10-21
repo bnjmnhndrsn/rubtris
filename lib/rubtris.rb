@@ -73,7 +73,7 @@ class Rubtris
   end
 
   def take_action(action)
-    case action
+    case action.downcase
     when "w"
       @board.push_selected_down
     when "a"
