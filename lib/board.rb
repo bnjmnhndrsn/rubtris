@@ -6,17 +6,18 @@ class Board
   attr_reader :completed_lines
   
   STRINGS = {
-    Block => "  ".colorize(:white),
-    NilClass => "  " 
+    Block     => "  ".colorize(:white),
+    NilClass  => "  " 
   }
   
   COLORS = {
-    :line => :on_cyan,
-    :left_l => :on_blue,
-    :right_l => :on_green,
-    :t_block => :on_magenta,
-    :square => :on_red,
-    :n_block_1 => :on_yellow
+    :line       => :on_cyan,
+    :left_l     => :on_blue,
+    :right_l    => :on_green,
+    :t_block    => :on_magenta,
+    :square     => :on_red,
+    :n_block_1  => :on_yellow,
+    :n_block_2  => :on_black
   }
   
   WIDTH = 10

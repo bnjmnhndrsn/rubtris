@@ -6,15 +6,16 @@ class Block
   attr_accessor :upper_left, :rotation, :pattern
   
   PATTERN_SIZES = {
-    square: 2,
-    line: 4,
-    left_l: 3,
-    right_l: 3,
-    t_block: 3,
-    n_block_1: 3
+    square:     2,
+    line:       4,
+    left_l:     3,
+    right_l:    3,
+    t_block:    3,
+    n_block_1:  3,
+    n_block_2:  3
   }
   
-  PATTERN_NAMES = [:square, :line, :left_l, :right_l, :t_block, :n_block_1]
+  PATTERN_NAMES = [:square, :line, :left_l, :right_l, :t_block, :n_block_1, :n_block_2]
   
   PATTERNS = {
     square:     [[0, 0], [0, 1], [1, 0], [1, 1]],
@@ -22,7 +23,8 @@ class Block
     left_l:     [[0, 0], [1, 0], [2, 0], [2, 1]],
     right_l:    [[0, 2], [1, 2], [2, 2], [2, 1]],
     t_block:    [[1, 1], [2, 0], [2, 1], [2, 2]],
-    n_block_1:  [[0, 0], [1, 0], [1, 1], [2, 1]]
+    n_block_1:  [[0, 0], [1, 0], [1, 1], [2, 1]],
+    n_block_2:  [[0, 1], [1, 1], [1, 0], [2, 0]]
   }
   
   def initialize(pattern, upper_left)
