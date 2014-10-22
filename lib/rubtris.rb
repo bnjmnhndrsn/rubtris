@@ -122,7 +122,5 @@ class Rubtris
 
 end
 
-if $PROGRAM_NAME == __FILE__
-  t = Rubtris.new
-  t.run
-end
+t = Rubtris.new
+t.run
