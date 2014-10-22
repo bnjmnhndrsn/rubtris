@@ -54,6 +54,7 @@ class Rubtris
     @board.add_block
     @board.render
     @start_time, @last_advanced, @level = Time.now, Time.now, 0
+    @time_limit = 0
     
   end
   
