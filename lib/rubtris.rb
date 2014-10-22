@@ -1,6 +1,7 @@
 require_relative 'board'
 require 'timeout'
 require 'io/console'
+require_relative 'menu'
 
 class Rubtris
   
@@ -9,25 +10,41 @@ class Rubtris
   MINIMUM_ADVANCE_RATE    = 0.05
   DIF_BTWN_LEVEL          = 0.04
 
-  def initialize
-    @board = Board.new
-  end
 
   def run
     set_up_game
-    
-    until @board.over?
+    until over?
       do_turn
     end
     
     end_game
   end
   
+  def get_mode
+    options = [
+      {title: "Unlimited", type: :none, value: 0},
+      {title: "Timed", type: :increment, value: 3, unit: 'min.'},
+      {title: "Lines", type: :increment, value: 40}
+    ]
+    prompt = "Welcome to Tetris.\nSelect the mode you want to play!"
+    menu = Menu.new(options, prompt)
+    menu.open
+  end
+  
   def set_up_game
+    config = get_mode
+    @board = Board.new
+    @board.add_win_condition(config[:title], config[:value])
     STDIN.echo = false
+    @force_quit = false
     @board.add_block
     render(@board.to_s)
     @last_advanced, @level = Time.now, 0
+    
+  end
+  
+  def over?
+    force_quit? || @board.over?
   end
   
   def do_turn
@@ -41,7 +58,7 @@ class Rubtris
   
   def end_game
     render(@board.to_s)
-    puts "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}"
+    puts "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}" unless force_quit?
     STDIN.echo = true
   end
   
@@ -67,9 +84,8 @@ class Rubtris
     action
   end
   
-  def force_quit
-    STDIN.echo = true
-    fail "quitting gracefully"
+  def force_quit?
+    @force_quit
   end
 
   def take_action(action)
@@ -89,7 +105,9 @@ class Rubtris
     when "q"
       @board.rotate_selected_left
     when "p"
-      force_quit
+      @force_quit = true
+    when "\e"
+      @force_quit = true
     end
     nil
   end
@@ -106,7 +124,5 @@ end
 
 if $PROGRAM_NAME == __FILE__
   t = Rubtris.new
+  t.run
 end
-
-t = Rubtris.new
-t.run
