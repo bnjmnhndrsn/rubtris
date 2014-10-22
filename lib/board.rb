@@ -1,4 +1,5 @@
 require_relative 'block'
+require_relative 'pattern'
 require 'colorize'
 
 class Board
@@ -6,17 +7,20 @@ class Board
   attr_reader :completed_lines
   
   STRINGS = {
-    Block => "  ".colorize(:white),
-    NilClass => "  " 
+    Block     => "  ".colorize(:white),
+    Pattern   => "  ".colorize(:white),
+    NilClass  => "  " 
   }
   
-  COLORS = {
-    :line => :on_cyan,
-    :left_l => :on_blue,
-    :right_l => :on_green,
-    :t_block => :on_magenta,
-    :square => :on_red,
-  }
+  PATTERN = [ # Name, Pattern, Size, Color
+    Pattern.new(:square,     [[0, 0], [0, 1], [1, 0], [1, 1]], 2, :on_red),
+    Pattern.new(:line,       [[0, 1], [1, 1], [2, 1], [3, 1]], 4, :on_cyan),
+    Pattern.new(:left_l,     [[0, 0], [1, 0], [2, 0], [2, 1]], 3, :on_blue),
+    Pattern.new(:right_l,    [[0, 2], [1, 2], [2, 2], [2, 1]], 3, :on_green),
+    Pattern.new(:t_block,    [[1, 1], [2, 0], [2, 1], [2, 2]], 3, :on_red),
+    Pattern.new(:n_block_1,  [[0, 0], [1, 0], [1, 1], [2, 1]], 3, :on_yellow),
+    Pattern.new(:n_block_2,  [[0, 1], [1, 1], [1, 0], [2, 0]], 3, :on_black)
+  ]
   
   WIDTH = 10
   
@@ -40,7 +44,7 @@ class Board
     @grid.map do |row|
        row.map do |square|
         str = STRINGS[square.class]
-        square.nil? ? str.on_light_white : str.send(COLORS[square.pattern])
+        square.nil? ? str.on_light_white : str.send(square.pattern.color)
        end.join("")
      end[2..-1].join("\n")
   end
@@ -151,6 +155,5 @@ class Board
   def over?
     @over
   end
-
 
 end

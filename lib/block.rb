@@ -1,34 +1,28 @@
 require 'timeout'
 require 'io/console'
+require_relative 'pattern'
 
 class Block
   
   attr_accessor :upper_left, :rotation, :pattern
   
-  PATTERN_SIZES = {
-    square: 2,
-    line: 4,
-    left_l: 3,
-    right_l: 3,
-    t_block: 3
-  }
+  PATTERN = [ # Name, Pattern, Size, Color
+    Pattern.new(:square,     [[0, 0], [0, 1], [1, 0], [1, 1]], 2, :on_red),
+    Pattern.new(:line,       [[0, 1], [1, 1], [2, 1], [3, 1]], 4, :on_cyan),
+    Pattern.new(:left_l,     [[0, 0], [1, 0], [2, 0], [2, 1]], 3, :on_blue),
+    Pattern.new(:right_l,    [[0, 2], [1, 2], [2, 2], [2, 1]], 3, :on_green),
+    Pattern.new(:t_block,    [[1, 1], [2, 0], [2, 1], [2, 2]], 3, :on_red),
+    Pattern.new(:n_block_1,  [[0, 0], [1, 0], [1, 1], [2, 1]], 3, :on_yellow),
+    Pattern.new(:n_block_2,  [[0, 1], [1, 1], [1, 0], [2, 0]], 3, :on_black)
+  ]
   
-  PATTERN_NAMES = [:square, :line, :left_l, :right_l, :t_block]
-  
-  PATTERNS = {
-    square: [[0, 0], [0, 1], [1, 0], [1, 1]],
-    line: [[0, 1], [1, 1], [2, 1], [3, 1]],
-    left_l: [[0, 0], [1, 0], [2, 0], [2, 1]],
-    right_l: [[0, 2], [1, 2], [2, 2], [2, 1]],
-    t_block: [[1, 1], [2, 0], [2, 1], [2, 2]]
-  }
   
   def initialize(pattern, upper_left)
     @pattern, @upper_left, @rotation = pattern, upper_left, 0
   end
   
   def self.random(upper_left)
-    Block.new(PATTERN_NAMES.sample, upper_left)
+    Block.new(PATTERN.sample, upper_left)
   end
   
   def spaces_occupied(pos: @upper_left, rotation: @rotation)
@@ -38,7 +32,7 @@ class Block
   end
   
   def get_vectors(rotation)
-    vectors = PATTERNS[@pattern].dup
+    vectors = @pattern.pattern
     
     (rotation.abs % 4 ).times do
       vectors.map! do |coord|
@@ -51,13 +45,13 @@ class Block
     
   def rotate_coord_right(coord)
     i, j = coord
-    size = PATTERN_SIZES[@pattern]
+    size = @pattern.size
     [j , (size - 1) - i]
   end
   
   def rotate_coord_left(coord)
     i, j = coord
-    size = PATTERN_SIZES[@pattern]
+    size = @pattern.size
     [(size - 1) - j, i]
   end  
 end

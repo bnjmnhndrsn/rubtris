@@ -4,10 +4,10 @@ require 'io/console'
 
 class Rubtris
   
-  REFRESH_RATE  = 0.03
+  REFRESH_RATE            = 0.05
   BEGINNING_ADVANCE_RATE  = 0.3
-  MINIMUM_ADVANCE_RATE = 0.05
-  DIF_BTWN_LEVEL = 0.04
+  MINIMUM_ADVANCE_RATE    = 0.05
+  DIF_BTWN_LEVEL          = 0.04
 
   def initialize
     @board = Board.new
@@ -32,7 +32,7 @@ class Rubtris
   
   def do_turn
     auto_advance if auto_advance_needed?
-    system('clear')
+    system "clear" or system "cls"
     render(@board.to_s)
     action = get_input
     take_action(action) if action
@@ -73,7 +73,7 @@ class Rubtris
   end
 
   def take_action(action)
-    case action
+    case action.downcase
     when "w"
       @board.push_selected_down
     when "a"
@@ -84,13 +84,11 @@ class Rubtris
       @board.move_selected_right
     when "\r"
       @board.push_selected_down
-    when "p"
+    when "e"
       @board.rotate_selected_right
-    when "l"
+    when "q"
       @board.rotate_selected_left
-    when "\e"
-      force_quit
-    when "\u0003"
+    when "p"
       force_quit
     end
     nil
