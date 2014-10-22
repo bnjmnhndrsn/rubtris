@@ -54,7 +54,7 @@ class Menu
   
   def increment_selected(num)
     new_val = @options[@selected][:value] + num
-    @options[@selected][:value] = [new_val, 0].max
+    @options[@selected][:value] = [new_val, 1].max
   end
   
   def done?

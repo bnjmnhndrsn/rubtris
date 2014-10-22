@@ -164,7 +164,7 @@ class Board
   
   def over_lines?
     return false if @line_limit.nil?
-    @completed_lines > @line_limt
+    @completed_lines >= @line_limit
   end
   
   def add_win_condition(condition, value)
