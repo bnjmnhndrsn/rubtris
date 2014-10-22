@@ -16,13 +16,13 @@ class Rubtris
     until over?
       do_turn
     end
-    
     end_game
+    run if !force_quit? && play_again
   end
   
   def get_mode
     options = [
-      {title: "Unlimited", type: :none, value: 0},
+      {title: "Unlimited", type: :none, value: true},
       {title: "Timed", type: :increment, value: 3, unit: 'min.'},
       {title: "Lines", type: :increment, value: 40}
     ]
@@ -31,20 +31,26 @@ class Rubtris
     menu.open
   end
   
+  def play_again
+    options = [
+      {title: "Yes", type: :none, value: true},
+      {title: "No", type: :none, value: false}
+    ]
+    prompt = "#{@board.summary_s}\nPlay again?"
+    menu = Menu.new(options, prompt)
+    menu.open[:value]
+  end
+  
   def set_up_game
     config = get_mode
+    add_win_condition(config[:title], config[:value])
     @board = Board.new
-    @board.add_win_condition(config[:title], config[:value])
     STDIN.echo = false
     @force_quit = false
     @board.add_block
     @board.render
-    @last_advanced, @level = Time.now, 0
+    @start_time, @last_advanced, @level = Time.now, Time.now, 0
     
-  end
-  
-  def over?
-    force_quit? || @board.over?
   end
   
   def do_turn
@@ -53,12 +59,9 @@ class Rubtris
     @board.render
     action = get_input
     take_action(action) if action
-    update_level
   end
   
   def end_game
-    @board.render
-    puts "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}" unless force_quit?
     STDIN.echo = true
   end
   
@@ -104,6 +107,10 @@ class Rubtris
       @board.rotate_selected_right
     when "q"
       @board.rotate_selected_left
+    when "["
+      @board.rotate_selected_left
+    when "]"
+      @board.rotate_selected_right
     when "p"
       @force_quit = true
     when "\e"
@@ -112,8 +119,25 @@ class Rubtris
     nil
   end
   
-  def update_level
-    @level = @board.completed_lines / 10
+  def over?
+    force_quit? || @board.over? || over_time? || over_lines?
+  end
+  
+  def over_time?
+    @start_time && (@last_advanced - @start_time) >= @time_limit
+  end
+  
+  def over_lines?
+    @line_limit && @board.completed_lines >= @line_limit
+  end
+  
+  def add_win_condition(condition, value)
+    case condition
+    when "Timed"
+      @time_limit = value * 60
+    when "Lines"
+      @line_limit = value
+    end
   end
 
 end
