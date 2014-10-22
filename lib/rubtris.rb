@@ -50,6 +50,7 @@ class Rubtris
     @board.add_block
     @board.render
     @start_time, @last_advanced, @level = Time.now, Time.now, 0
+    @time_limit = 0
     
   end
   
@@ -124,6 +125,7 @@ class Rubtris
   end
   
   def over_time?
+    p "#{@start_time} && (#{@last_advanced} - #{@start_time}) >= #{@time_limit}"
     @start_time && (@last_advanced - @start_time) >= @time_limit
   end
   
