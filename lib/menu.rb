@@ -37,7 +37,7 @@ class Menu
     when "w"
      @selected = (@selected - 1) % @options.length
     when "a"
-      increment_selected(-1)
+      increment_selected(-1) 
     when "s"
      @selected = (@selected - 1) % @options.length
     when "d"
@@ -53,6 +53,7 @@ class Menu
   end
   
   def increment_selected(num)
+    return nil unless @options[@selected][:type] = :increment
     new_val = @options[@selected][:value] + num
     @options[@selected][:value] = [new_val, 1].max
   end

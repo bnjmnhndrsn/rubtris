@@ -27,7 +27,7 @@ class Board
   def initialize
     @grid, @over, @completed_lines = Array.new(HEIGHT) { Array.new(WIDTH) }, false, 0
     @start_time, @time_limit, @line_limit = Time.now, nil, nil
-    @score = 0
+    @score, @level =  0, 0
   end
   
   def [](coord)
@@ -49,12 +49,16 @@ class Board
         end
       end
       if i == 2
-        str += "     LINES: #{@completed_lines}  LEVEL: #{level}  SCORE: #{@score}"
+        str += "    #{summary_s}"
       end
       str += "\n"
     end
     str = "  " * WIDTH + "\n" + str
     puts str
+  end
+  
+  def summary_s
+    "LINES: #{@completed_lines}  LEVEL: #{level}  SCORE: #{@score}"
   end
   
   def level
@@ -168,26 +172,9 @@ class Board
   end
   
   def over?
-    @over || over_time? || over_lines?
+    @over
   end
   
-  def over_time?
-    return false if @time_limit.nil?
-    Time.now - @start_time > @time_limit
-  end
-  
-  def over_lines?
-    return false if @line_limit.nil?
-    @completed_lines > @line_limit
-  end
-  
-  def add_win_condition(condition, value)
-    case condition
-    when "Timed"
-      @time_limit = value * 60
-    when "Lines"
-      @line_limit = value
-    end
-  end
+
 
 end
