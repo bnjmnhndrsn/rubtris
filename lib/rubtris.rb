@@ -104,7 +104,10 @@ class Rubtris
     puts grid_string
   end
 
-  
+end
+
+if $PROGRAM_NAME == __FILE__
+  t = Rubtris.new
 end
 
 t = Rubtris.new
