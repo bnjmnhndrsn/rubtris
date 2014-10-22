@@ -6,12 +6,6 @@ class Board
   
   attr_reader :completed_lines
   
-  STRINGS = {
-    Block     => "  ".colorize(:white),
-    Pattern   => "  ".colorize(:white),
-    NilClass  => "  " 
-  }
-  
   PATTERN = [ # Name, Pattern, Size, Color
     Pattern.new(:square,     [[0, 0], [0, 1], [1, 0], [1, 1]], 2, :on_red),
     Pattern.new(:line,       [[0, 1], [1, 1], [2, 1], [3, 1]], 4, :on_cyan),
@@ -28,9 +22,12 @@ class Board
   
   STARTING_POINT = [0, 4]
   
+  SCORE_MULTIPLIER = 2
+  
   def initialize
     @grid, @over, @completed_lines = Array.new(HEIGHT) { Array.new(WIDTH) }, false, 0
     @start_time, @time_limit, @line_limit = Time.now, nil, nil
+    @score = 0
   end
   
   def [](coord)
@@ -41,13 +38,27 @@ class Board
     @grid[coord.first][coord.last] = val
   end
   
-  def to_s
-    @grid.map do |row|
-       row.map do |square|
-        str = STRINGS[square.class]
-        square.nil? ? str.on_light_white : str.send(square.pattern.color)
-       end.join("")
-     end[2..-1].join("\n")
+  def render
+    str = ""
+    @grid.each_with_index do |row, i|
+      row.each do |pos|
+        if pos.nil?
+          str += "  ".on_light_white
+        else
+          str += "  ".send(pos.pattern.color)
+        end
+      end
+      if i == 2
+        str += "     LINES: #{@completed_lines}  LEVEL: #{level}  SCORE: #{@score}"
+      end
+      str += "\n"
+    end
+    str = "  " * WIDTH + "\n" + str
+    puts str
+  end
+  
+  def level
+    @completed_lines / 10
   end
   
   def filled?(space)
@@ -111,7 +122,7 @@ class Board
   
   def move_selected_down
     unless change_direction(@selected, i: 1, j: 0)
-      check_for_completed_line
+      remove_completed_line_and_increase_score
       @over = !add_block
     end
   end
@@ -140,17 +151,20 @@ class Board
     end
   end
   
-  def check_for_completed_line
+  def remove_completed_line_and_increase_score
+    lines = 0
     i = HEIGHT - 1
     until i == 0
       spaces_on_row = [i].product((0...WIDTH).to_a)
         if all_filled?(spaces_on_row)
           remove_and_shift(i)
-          @completed_lines += 1
+          lines += 1
         else
           i -= 1
         end
     end
+    @completed_lines += lines
+    @score += (lines * SCORE_MULTIPLIER) ** 2
   end
   
   def over?

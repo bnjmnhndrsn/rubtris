@@ -38,7 +38,7 @@ class Rubtris
     STDIN.echo = false
     @force_quit = false
     @board.add_block
-    render(@board.to_s)
+    @board.render
     @last_advanced, @level = Time.now, 0
     
   end
@@ -50,14 +50,14 @@ class Rubtris
   def do_turn
     auto_advance if auto_advance_needed?
     system "clear" or system "cls"
-    render(@board.to_s)
+    @board.render
     action = get_input
     take_action(action) if action
     update_level
   end
   
   def end_game
-    render(@board.to_s)
+    @board.render
     puts "GAME OVER. Lines: #{@board.completed_lines} Level: #{@level}" unless force_quit?
     STDIN.echo = true
   end
@@ -114,10 +114,6 @@ class Rubtris
   
   def update_level
     @level = @board.completed_lines / 10
-  end
-  
-  def render(grid_string)
-    puts grid_string
   end
 
 end
