@@ -1,10 +1,7 @@
-#!/usr/bin/env ruby
-
 require_relative 'board'
 require 'timeout'
 require 'io/console'
 require_relative 'menu'
-require 'debugger'
 
 class Rubtris
   
@@ -21,7 +18,6 @@ class Rubtris
     end
     end_game
     run if !force_quit? && play_again
-    
   end
   
   def get_mode
@@ -30,9 +26,10 @@ class Rubtris
       {title: "Timed", type: :increment, value: 3, unit: 'min.'},
       {title: "Lines", type: :increment, value: 40}
     ]
-    prompt = "Welcome to Rubtris.\nSelect the mode you want to play!"
+    prompt = "Welcome to Tetris.\nSelect the mode you want to play!"
     menu = Menu.new(options, prompt)
-    menu.open
+    @game_mode = menu.open
+    
   end
   
   def play_again
@@ -129,10 +126,12 @@ class Rubtris
   end
   
   def over_time?
-    @time_limit && (@last_advanced - @start_time) >= @time_limit
+    return false if @game_mode[:title] != "Timed"
+    @start_time && (@last_advanced - @start_time) >= @time_limit
   end
   
   def over_lines?
+    return false if @game_mode[:title] != "Lines"
     @line_limit && @board.completed_lines >= @line_limit
   end
   
