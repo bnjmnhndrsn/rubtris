@@ -2,6 +2,7 @@ require_relative 'board'
 require 'timeout'
 require 'io/console'
 require_relative 'menu'
+#require 'debugger'
 
 class Rubtris
   
@@ -29,7 +30,6 @@ class Rubtris
     prompt = "Welcome to Rubtris.\nSelect the mode you want to play!"
     menu = Menu.new(options, prompt)
     @game_mode = menu.open
-    
   end
   
   def play_again
@@ -43,16 +43,15 @@ class Rubtris
   end
   
   def set_up_game
-    config = get_mode
-    add_win_condition(config[:title], config[:value])
     @board = Board.new
     STDIN.echo = false
     @force_quit = false
     @board.add_block
     @board.render
     @start_time, @last_advanced, @level = Time.now, Time.now, 0
-    @time_limit = 0
-    
+    @time_limit, @line_limit = nil, nil
+    config = get_mode
+    add_win_condition(config[:title], config[:value])
   end
   
   def do_turn
@@ -126,12 +125,10 @@ class Rubtris
   end
   
   def over_time?
-    return false if @game_mode[:title] != "Timed"
-    @start_time && (@last_advanced - @start_time) >= @time_limit
+    @time_limit && (@last_advanced - @start_time) >= @time_limit
   end
   
   def over_lines?
-    return false if @game_mode[:title] != "Lines"
     @line_limit && @board.completed_lines >= @line_limit
   end
   
