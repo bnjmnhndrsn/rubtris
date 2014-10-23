@@ -26,7 +26,7 @@ class Rubtris
       {title: "Timed", type: :increment, value: 3, unit: 'min.'},
       {title: "Lines", type: :increment, value: 40}
     ]
-    prompt = "Welcome to Tetris.\nSelect the mode you want to play!"
+    prompt = "Welcome to Rubtris.\nSelect the mode you want to play!"
     menu = Menu.new(options, prompt)
     @game_mode = menu.open
     
