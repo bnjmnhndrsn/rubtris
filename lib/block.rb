@@ -7,13 +7,13 @@ class Block
   attr_accessor :upper_left, :rotation, :pattern
   
   PATTERN = [ # Name, Pattern, Size, Color
-    Pattern.new(:square,     [[0, 0], [0, 1], [1, 0], [1, 1]], 2, :on_red),
-    Pattern.new(:line,       [[0, 1], [1, 1], [2, 1], [3, 1]], 4, :on_cyan),
-    Pattern.new(:left_l,     [[0, 0], [1, 0], [2, 0], [2, 1]], 3, :on_blue),
-    Pattern.new(:right_l,    [[0, 2], [1, 2], [2, 2], [2, 1]], 3, :on_green),
-    Pattern.new(:t_block,    [[1, 1], [2, 0], [2, 1], [2, 2]], 3, :on_red),
-    Pattern.new(:n_block_1,  [[0, 0], [1, 0], [1, 1], [2, 1]], 3, :on_yellow),
-    Pattern.new(:n_block_2,  [[0, 1], [1, 1], [1, 0], [2, 0]], 3, :on_black)
+    Pattern.new(:square,     [[0, 0], [0, 1], [1, 0], [1, 1]], 2, :red),
+    Pattern.new(:line,       [[0, 1], [1, 1], [2, 1], [3, 1]], 4, :cyan),
+    Pattern.new(:left_l,     [[0, 0], [1, 0], [2, 0], [2, 1]], 3, :blue),
+    Pattern.new(:right_l,    [[0, 2], [1, 2], [2, 2], [2, 1]], 3, :green),
+    Pattern.new(:t_block,    [[1, 1], [2, 0], [2, 1], [2, 2]], 3, :red),
+    Pattern.new(:n_block_1,  [[0, 0], [1, 0], [1, 1], [2, 1]], 3, :yellow),
+    Pattern.new(:n_block_2,  [[0, 1], [1, 1], [1, 0], [2, 0]], 3, :default)
   ]
   
   

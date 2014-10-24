@@ -1,6 +1,5 @@
 class Menu
-  
-  #{title: "Level", type: :toggle, value: 0, unit: nil}
+
   
   def initialize(options, prompt)
     @prompt = prompt.center(33)

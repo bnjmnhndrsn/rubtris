@@ -6,16 +6,6 @@ class Board
   
   attr_reader :completed_lines
   
-  PATTERN = [ # Name, Pattern, Size, Color
-    Pattern.new(:square,     [[0, 0], [0, 1], [1, 0], [1, 1]], 2, :on_red),
-    Pattern.new(:line,       [[0, 1], [1, 1], [2, 1], [3, 1]], 4, :on_cyan),
-    Pattern.new(:left_l,     [[0, 0], [1, 0], [2, 0], [2, 1]], 3, :on_blue),
-    Pattern.new(:right_l,    [[0, 2], [1, 2], [2, 2], [2, 1]], 3, :on_green),
-    Pattern.new(:t_block,    [[1, 1], [2, 0], [2, 1], [2, 2]], 3, :on_red),
-    Pattern.new(:n_block_1,  [[0, 0], [1, 0], [1, 1], [2, 1]], 3, :on_yellow),
-    Pattern.new(:n_block_2,  [[0, 1], [1, 1], [1, 0], [2, 0]], 3, :on_black)
-  ]
-  
   WIDTH = 10
   
   HEIGHT = 22
@@ -42,18 +32,15 @@ class Board
     str = ""
     @grid.each_with_index do |row, i|
       row.each do |pos|
-        if pos.nil?
-          str += "  ".on_light_white
-        else
-          str += "  ".send(pos.pattern.color)
-        end
+         str += pos.nil? ? "  " : "[]".colorize(pos.pattern.color)
       end
+      str+= "*"
       if i == 2
         str += "    #{summary_s}"
       end
       str += "\n"
     end
-    str = "  " * WIDTH + "\n" + str
+    str = "  " * (WIDTH + 1) + "\n" + str + "* " * (WIDTH + 1) + "\n"
     puts str
   end
   
@@ -99,7 +86,9 @@ class Board
     true
   end
   
-  def change_direction(block, i: nil, j: nil, turn: nil)
+  def change_direction(block, options = {})
+    i, j, turn = options[:i], options[:j], options[:turn]
+    
     new_upper_left = (i && j) ? [block.upper_left.first + i, block.upper_left.last + j] : block.upper_left
     new_rotation = (turn) ? block.rotation + turn : block.rotation
     old_spaces = block.spaces_occupied
