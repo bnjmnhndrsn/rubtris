@@ -2,7 +2,7 @@ require_relative 'board'
 require 'timeout'
 require 'io/console'
 require_relative 'menu'
-#require 'debugger'
+require 'debugger'
 
 class Rubtris
   
@@ -15,6 +15,7 @@ class Rubtris
   def run
     set_up_game
     until over?
+      puts "sup"
       do_turn
     end
     end_game

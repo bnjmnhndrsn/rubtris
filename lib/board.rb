@@ -1,6 +1,7 @@
 require_relative 'block'
 require_relative 'pattern'
 require 'colorize'
+require 'debugger'
 
 class Board
   
@@ -88,7 +89,6 @@ class Board
   
   def change_direction(block, options = {})
     i, j, turn = options[:i], options[:j], options[:turn]
-    
     new_upper_left = (i && j) ? [block.upper_left.first + i, block.upper_left.last + j] : block.upper_left
     new_rotation = (turn) ? block.rotation + turn : block.rotation
     old_spaces = block.spaces_occupied

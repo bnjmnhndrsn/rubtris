@@ -25,7 +25,9 @@ class Block
     Block.new(PATTERN.sample, upper_left)
   end
   
-  def spaces_occupied(pos: @upper_left, rotation: @rotation)
+  def spaces_occupied(options = {})
+    rotation = options[:rotation] || @rotation
+    pos = options[:pos] || @upper_left
     get_vectors(rotation).map do |vector|
       [vector.first + pos.first, vector.last + pos.last]
     end
