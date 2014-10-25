@@ -1,19 +1,16 @@
 require_relative 'block'
 require_relative 'pattern'
 require 'colorize'
-require 'debugger'
+require 'byebug'
 
 class Board
   
   attr_reader :completed_lines
   
-  WIDTH = 10
-  
-  HEIGHT = 22
-  
-  STARTING_POINT = [0, 4]
-  
-  SCORE_MULTIPLIER = 2
+  WIDTH             = 10
+  HEIGHT            = 22
+  STARTING_POINT    = [0, 4]
+  SCORE_MULTIPLIER  = 2
   
   def initialize
     @grid, @over, @completed_lines = Array.new(HEIGHT) { Array.new(WIDTH) }, false, 0
@@ -117,7 +114,7 @@ class Board
   
   def move_to_bottom
     id = @selected.object_id
-    while change_direction(@selected, i: 2, j: 0) && id == @selected.object_id
+    while change_direction(@selected, i: 1, j: 0) && id == @selected.object_id
       move_selected_down
     end
   end

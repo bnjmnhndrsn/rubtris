@@ -6,7 +6,7 @@ require 'debugger'
 
 class Rubtris
   
-  REFRESH_RATE            = 0.05
+  REFRESH_RATE            = 0.1
   BEGINNING_ADVANCE_RATE  = 0.3
   MINIMUM_ADVANCE_RATE    = 0.05
   DIF_BTWN_LEVEL          = 0.04
