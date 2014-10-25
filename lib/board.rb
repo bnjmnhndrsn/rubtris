@@ -117,7 +117,7 @@ class Board
   
   def move_to_bottom
     id = @selected.object_id
-    while change_direction(@selected, i: 1, j: 0) && id == @selected.object_id
+    while change_direction(@selected, i: 2, j: 0) && id == @selected.object_id
       move_selected_down
     end
   end
