@@ -33,15 +33,15 @@ class Board
     str = ""
     @grid.each_with_index do |row, i|
       row.each do |pos|
-         str += pos.nil? ? "  " : "[]".colorize(pos.pattern.color)
+         str += pos.nil? ? "  " : "  ".colorize(background: pos.pattern.color)
       end
-      str+= "*"
+      str += "|"
       if i == 2
         str += "    #{summary_s}"
       end
       str += "\n"
     end
-    str = "  " * (WIDTH + 1) + "\n" + str + "* " * (WIDTH + 1) + "\n"
+    str = "  " * (WIDTH + 1) + "\n" + str + "- " * (WIDTH + 1) + "\n"
     puts str
   end
   
@@ -95,6 +95,8 @@ class Board
     new_spaces = block.spaces_occupied(pos: new_upper_left, rotation: new_rotation)
     old_territory = old_spaces - new_spaces
     new_territory = new_spaces - old_spaces
+    # p "i: #{i} j: #{j} turn: #{turn} new_upper_left: #{new_upper_left} new_rotation: #{new_rotation}"
+    # p "old_spaces: #{old_spaces} new_spaces: #{new_spaces} old_territory: #{old_territory} new_territory: #{new_territory}"
     return false unless new_spaces.all? { |coord| on_board?(coord) }
     return false if any_filled?(new_territory)
     remove_from_spaces(old_territory)
@@ -109,6 +111,13 @@ class Board
   
   def push_selected_down
     unless change_direction(@selected, i: 5, j: 0)
+      move_selected_down
+    end
+  end
+  
+  def move_to_bottom
+    id = @selected.object_id
+    while change_direction(@selected, i: 1, j: 0) && id == @selected.object_id
       move_selected_down
     end
   end

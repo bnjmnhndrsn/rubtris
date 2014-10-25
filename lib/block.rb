@@ -13,7 +13,7 @@ class Block
     Pattern.new(:right_l,    [[0, 2], [1, 2], [2, 2], [2, 1]], 3, :green),
     Pattern.new(:t_block,    [[1, 1], [2, 0], [2, 1], [2, 2]], 3, :red),
     Pattern.new(:n_block_1,  [[0, 0], [1, 0], [1, 1], [2, 1]], 3, :yellow),
-    Pattern.new(:n_block_2,  [[0, 1], [1, 1], [1, 0], [2, 0]], 3, :default)
+    Pattern.new(:n_block_2,  [[0, 1], [1, 1], [1, 0], [2, 0]], 3, :black)
   ]
   
   

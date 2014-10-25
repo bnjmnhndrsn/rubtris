@@ -15,7 +15,6 @@ class Rubtris
   def run
     set_up_game
     until over?
-      puts "sup"
       do_turn
     end
     end_game
@@ -96,7 +95,7 @@ class Rubtris
   def take_action(action)
     case action.downcase
     when "w"
-      @board.push_selected_down
+      @board.move_to_bottom
     when "a"
       @board.move_selected_left
     when "s"
