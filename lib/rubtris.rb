@@ -5,7 +5,7 @@ require_relative 'menu'
 
 class Rubtris
   
-  REFRESH_RATE            = 0.05
+  REFRESH_RATE            = 0.1
   BEGINNING_ADVANCE_RATE  = 0.3
   MINIMUM_ADVANCE_RATE    = 0.05
   DIF_BTWN_LEVEL          = 0.04
@@ -94,7 +94,7 @@ class Rubtris
   def take_action(action)
     case action.downcase
     when "w"
-      @board.push_selected_down
+      @board.move_to_bottom
     when "a"
       @board.move_selected_left
     when "s"
