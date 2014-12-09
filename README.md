@@ -1,6 +1,6 @@
 RUBTRIS
 =======
 
-everyone's favorite tetromino-based puzzle game, now on the command line!
+Rubtris is a Ruby clone of everyone's favorite tetromino-based puzzle game, played entirely on the command line.
 
-available as a Gem. Just "gem install rubtris"!
+Rubtris is available as Gem. Just run "gem install rubtris", and you will be able to play Rubtris by just typing "rubtris" in the console.

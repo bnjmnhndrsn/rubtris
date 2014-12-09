@@ -1,6 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'rubtris'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
+  s.add_runtime_dependency "colorize", [">= 0"]
   s.date        = '2014-12-09'
   s.summary     = "Command line Tetrino based puzzle game!"
   s.description = "Command line Tetrino based puzzle game!"
