@@ -3,7 +3,7 @@ require 'timeout'
 require 'io/console'
 require_relative 'menu'
 
-class Rubtris
+class Game
   
   REFRESH_RATE            = 0.1
   BEGINNING_ADVANCE_RATE  = 0.3
@@ -139,6 +139,3 @@ class Rubtris
   end
 
 end
-
-t = Rubtris.new
-t.run
