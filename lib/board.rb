@@ -1,7 +1,6 @@
 require_relative 'block'
 require_relative 'pattern'
 require 'colorize'
-require 'debugger'
 
 class Board
   
@@ -36,7 +35,9 @@ class Board
          str += pos.nil? ? "  " : "[]".colorize(pos.pattern.color)
       end
       str+= "*"
-      if i == 2
+      if i == 1
+        str += " WASD to move. '[' and ']' to rotate."
+      elsif i == 2
         str += "    #{summary_s}"
       end
       str += "\n"

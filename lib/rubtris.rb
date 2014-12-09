@@ -2,7 +2,6 @@ require_relative 'board'
 require 'timeout'
 require 'io/console'
 require_relative 'menu'
-require 'debugger'
 
 class Rubtris
   
@@ -15,7 +14,6 @@ class Rubtris
   def run
     set_up_game
     until over?
-      puts "sup"
       do_turn
     end
     end_game
@@ -113,8 +111,6 @@ class Rubtris
       @board.rotate_selected_left
     when "]"
       @board.rotate_selected_right
-    when "p"
-      @force_quit = true
     when "\e"
       @force_quit = true
     end
